@@ -16,7 +16,7 @@ typedef struct Array {
 
 array_struct create_array (unsigned int arr_size)
 {
-	int temp[arr_size];
+	int *temp = (int *)malloc(sizeof(int) * arr_size);
 	array_struct new_array;
 
 	new_array.capacity = arr_size;
@@ -51,21 +51,19 @@ void get_array_size (array_struct array)
  */
 void resize_and_add (array_struct *arr, int item)
 {
-	int *temp, i;
+	int *temp, i = arr->capacity + 5;
 
 	//arr->capacity += 5;
-	temp = (int *)malloc((arr->capacity + 1) * sizeof(int));
+	temp = (int *)realloc(arr->array, sizeof(int) * i);
 
 	if (temp == NULL)
 		exit(EXIT_FAILURE);
 
-	for (i = 0; i < arr->capacity; i++)
-		temp[i] = arr->array[i];
-	temp[i] = item;
 	arr->array = temp;
+    arr->array[arr->size + 1] = item;
 	arr->size += 1;
-	arr->capacity += 1;
-	free(temp);
+	arr->capacity = i;
+	//free(temp);
 	printf("Array capacity increased and item: %d added!\n", item);
 }
 
@@ -110,7 +108,7 @@ int main (void)
 
 	//resize_and_add(&my_array, 4);
 
-	for (size_t i = 0; i < my_array.capacity; i++)
+	for (size_t i = 0; i <= my_array.size; i++)
 		printf("Item %zu: %d\n", i, my_array.array[i]);
 
 	return(0);
