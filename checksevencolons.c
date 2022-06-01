@@ -1,4 +1,4 @@
-clea#include <stdio.h>
+#include <stdio.h>
 /**
  * main - function to check a string
  * Description: The function receives a string and checks if the number of
